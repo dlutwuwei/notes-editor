@@ -1,0 +1,36 @@
+{
+  "name": "notes-editor",
+  "version": "1.0.0",
+  "description": "note rich editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --http --devtool eval --progress --hot --host 0.0.0.0 --colors --content-base ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dlutwuwei/notes-editor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dlutwuwei/notes-editor/issues"
+  },
+  "homepage": "https://github.com/dlutwuwei/notes-editor#readme",
+  "dependencies": {
+    "draft-js": "^0.9.1",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.8",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-latest": "^6.16.0",
+    "css-loader": "^0.26.0",
+    "html-webpack-plugin": "^2.24.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  }
+}
