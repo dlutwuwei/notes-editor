@@ -11,7 +11,7 @@ import {
     Modifier
 } from 'draft-js';
 
-import './css/draft.css';
+import 'draft-js/dist/Draft.css';
 
 class MediaEditorExample extends React.Component {
     constructor(props) {
@@ -170,7 +170,6 @@ class MediaEditorExample extends React.Component {
 }
 
 function mediaBlockRenderer(block) {
-    console.log(block.getType());
     if (block.getType() === 'atomic') {
         return {
             component: Media,
