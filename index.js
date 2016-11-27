@@ -6,7 +6,9 @@ import {
     Editor,
     EditorState,
     RichUtils,
-    convertToRaw
+    convertToRaw,
+    Entity,
+    Modifier
 } from 'draft-js';
 
 import './css/draft.css';
@@ -52,22 +54,19 @@ class MediaEditorExample extends React.Component {
         e.preventDefault();
         const {editorState, urlValue, urlType} = this.state;
         const contentState = editorState.getCurrentContent();
-        const contentStateWithEntity = contentState.createEntity(
+        // create entity
+        const entityKey = Entity.create(
             urlType,
             'IMMUTABLE',
             { src: urlValue }
         );
-        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-        const newEditorState = EditorState.set(
-            editorState,
-            { currentContent: contentStateWithEntity }
-        );
 
+        // set editor state
         this.setState({
             editorState: AtomicBlockUtils.insertAtomicBlock(
-                newEditorState,
-                entityKey,
-                ' '
+              editorState,
+              entityKey,
+              ' '
             ),
             showURLInput: false,
             urlValue: '',
@@ -195,7 +194,7 @@ const Video = (props) => {
 };
 
 const Media = (props) => {
-    const entity = props.contentState.getEntity(
+    const entity = Entity.get(
         props.block.getEntityAt(0)
     );
     const {src} = entity.getData();
