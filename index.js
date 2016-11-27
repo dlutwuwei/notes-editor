@@ -53,7 +53,6 @@ class MediaEditorExample extends React.Component {
     _confirmMedia(e) {
         e.preventDefault();
         const {editorState, urlValue, urlType} = this.state;
-        const contentState = editorState.getCurrentContent();
         // create entity
         const entityKey = Entity.create(
             urlType,
