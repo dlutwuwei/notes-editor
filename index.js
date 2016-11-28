@@ -13,6 +13,12 @@ import {
 
 import 'draft-js/dist/Draft.css';
 
+import {
+    getDefaultKeyBinding, 
+    KeyBindingUtil
+} from 'draft-js';
+const { hasCommandModifier } = KeyBindingUtil;
+
 class MediaEditorExample extends React.Component {
     constructor(props) {
         super(props);
@@ -39,9 +45,19 @@ class MediaEditorExample extends React.Component {
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
     }
-
+    myKeyBindingFn(e) {
+        if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
+            return 'myeditor-save';
+        }
+        if(e.keyCode === 13) {
+            // TODO: toggle menu button
+            console.log('enter');
+        }
+        return getDefaultKeyBinding(e);
+    }
     _handleKeyCommand(command) {
         const {editorState} = this.state;
+        console.log(command)
         const newState = RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
             this.onChange(newState);
@@ -152,6 +168,7 @@ class MediaEditorExample extends React.Component {
                         blockRendererFn={mediaBlockRenderer}
                         editorState={this.state.editorState}
                         handleKeyCommand={this.handleKeyCommand}
+                        keyBindingFn={this.myKeyBindingFn}
                         onChange={this.onChange}
                         placeholder="Enter some text..."
                         ref="editor"
