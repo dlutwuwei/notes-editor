@@ -51,8 +51,11 @@ class MediaEditorExample extends React.Component {
         }
         if(e.keyCode === 13) {
             // TODO: toggle menu button
-            console.log('enter');
+            console.log('enter', this.state.editorState.getSelection().getStartKey());
+        } else {
+            console.log('otherkey', this.state.editorState.getSelection().getStartKey());
         }
+
         return getDefaultKeyBinding(e);
     }
     _handleKeyCommand(command) {
@@ -168,7 +171,7 @@ class MediaEditorExample extends React.Component {
                         blockRendererFn={mediaBlockRenderer}
                         editorState={this.state.editorState}
                         handleKeyCommand={this.handleKeyCommand}
-                        keyBindingFn={this.myKeyBindingFn}
+                        keyBindingFn={this.myKeyBindingFn.bind(this)}
                         onChange={this.onChange}
                         placeholder="Enter some text..."
                         ref="editor"
