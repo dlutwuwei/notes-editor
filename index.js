@@ -51,7 +51,8 @@ class MediaEditorExample extends React.Component {
         }
         if(e.keyCode === 13) {
             // TODO: toggle menu button
-            console.log('enter', this.state.editorState.getSelection().getStartKey());
+            let key = this.state.editorState.getSelection().getStartKey();
+            console.log(document.querySelector(`[data-offset-key='${key}-0-0']`));
         } else {
             console.log('otherkey', this.state.editorState.getSelection().getStartKey());
         }
