@@ -12,8 +12,7 @@ npm run build
 
 # draft-js 调研
 
-draft-js基于react开发，利用react的state和virtual dom对应关系，还需控制state的状态便可以控制文档的显示
-输入和光标移动，换行等行为均有编辑器自己控制
+draft-js基于react开发，利用react的state和virtual dom对应关系，使用contentEditable属性，但是通过替换默认dom元素的方式重新布局，使dom完全可控
 
 ## EditorState
 
