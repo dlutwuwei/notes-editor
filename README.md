@@ -25,3 +25,11 @@ draft-js基于react开发，利用react的state和virtual dom对应关系，使�
 ## SelectionState
 
 控制选区的state
+
+## ContentBlock
+
+内容块，可以文本，entity，段落等
+
+## Entity
+
+Entity is a static module containing the API for creating, retrieving, and updating entity objects
