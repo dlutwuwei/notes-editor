@@ -5,7 +5,7 @@
     "username": "wuwei",
     "password": "WuWei.540794",
     "remotePath": "/data04/wuwei/notes-editor",
-    "disable": false
+    "disable": true
 },{
     "name":"",
     "host": "",

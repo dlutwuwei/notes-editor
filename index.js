@@ -80,7 +80,7 @@ class MediaEditorExample extends React.Component {
             { src: urlValue }
         );
 
-        // set editor state
+        // set editor state，insert atomic type content block contains entity
         this.setState({
             editorState: AtomicBlockUtils.insertAtomicBlock(
               editorState,
