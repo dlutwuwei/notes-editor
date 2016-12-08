@@ -1,12 +1,18 @@
 import React, {Component} from 'react'
 
 class toolButtom extends Component {
-    render () {
+    constructor() {
+        this.state = {
+            top: 0,
+            left: 0
+        }
+    }
+    render() {
         return (
-            <div>
+            <div style={ {top: this.state.top + 'px', left: this.state.left + 'px' } }>
                 buttom
             </div>
-        )
+        );
     }
 }
 

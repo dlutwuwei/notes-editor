@@ -44,6 +44,8 @@ class MediaEditorExample extends React.Component {
         this.confirmMedia = this._confirmMedia.bind(this);
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
+
+        this.contentState = this.state.editorState.getCurrentContent();
     }
     myKeyBindingFn(e) {
         if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
@@ -52,7 +54,8 @@ class MediaEditorExample extends React.Component {
         if(e.keyCode === 13) {
             // TODO: toggle menu button
             let key = this.state.editorState.getSelection().getStartKey();
-            console.log(document.querySelector(`[data-offset-key='${key}-0-0']`));
+            let current_dom = document.querySelector(`[data-offset-key='${key}-0-0']`);
+            console.log('current offset top: ', current_dom.offsetTop, current_dom.offsetHeight);
         } else {
             console.log('otherkey', this.state.editorState.getSelection().getStartKey());
         }
@@ -85,7 +88,7 @@ class MediaEditorExample extends React.Component {
             editorState: AtomicBlockUtils.insertAtomicBlock(
               editorState,
               entityKey,
-              ' '
+              ''
             ),
             showURLInput: false,
             urlValue: '',

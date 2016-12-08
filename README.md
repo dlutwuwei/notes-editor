@@ -37,7 +37,7 @@ Entity是一个静态的模块，包含创建，恢复，更新entity对象的ap
 entity是一个表示元数据的对象，包含一段文本,包含三个属性type，mutability，data
 - type: 自定义type，e.g. 'LINK', 'MENTION', 'PHOTO'；
 - mutability: 可变性，Immutable表示不可改变，Mutable可改变，Segmented部分可变；
-- data: 自定义data，最终注入到dom元素的dataset；
+- data: 自定义data，最终注入到entity的data；
 
 ## AtomicBlockUtils
 
