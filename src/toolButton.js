@@ -1,19 +1,35 @@
 import React, {Component} from 'react'
 
-class toolButtom extends Component {
+class toolButton extends Component {
     constructor() {
+        super();
         this.state = {
-            top: 0,
-            left: 0
+            top: 6,
+            left: -28
         }
+    }
+    componentDidMount() {
+        document.addEventListener('showButton', (e) => {
+            this.setState({
+                top: e.detail.top,
+                left: e.detail.left
+            });
+        });
     }
     render() {
         return (
-            <div style={ {top: this.state.top + 'px', left: this.state.left + 'px' } }>
-                buttom
+            <div className="button" style={ {top: this.state.top + 'px', left: this.state.left + 'px' } }>
             </div>
         );
     }
+    static show(x, y) {
+        document.dispatchEvent(new CustomEvent('showButton', {
+            detail: {
+                top: y,
+                left: x
+            }
+        }));
+    }
 }
 
-export default toolButtom;
+export default toolButton;

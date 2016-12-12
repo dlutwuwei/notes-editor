@@ -11,12 +11,16 @@ import {
     Modifier
 } from 'draft-js';
 
+import './css/button.css';
 import 'draft-js/dist/Draft.css';
+
+import ToolButton from './src/toolButton';
 
 import {
     getDefaultKeyBinding, 
     KeyBindingUtil
 } from 'draft-js';
+
 const { hasCommandModifier } = KeyBindingUtil;
 
 class MediaEditorExample extends React.Component {
@@ -56,6 +60,8 @@ class MediaEditorExample extends React.Component {
             let key = this.state.editorState.getSelection().getStartKey();
             let current_dom = document.querySelector(`[data-offset-key='${key}-0-0']`);
             console.log('current offset top: ', current_dom.offsetTop, current_dom.offsetHeight);
+            let top = current_dom.offsetTop;
+            ToolButton.show(-28, top + 25);
         } else {
             console.log('otherkey', this.state.editorState.getSelection().getStartKey());
         }
@@ -149,7 +155,7 @@ class MediaEditorExample extends React.Component {
             <div style={styles.root}>
                 <div style={{ marginBottom: 10 }}>
                     Use the buttons to add audio, image, or video.
-              </div>
+                </div>
                 <div style={{ marginBottom: 10 }}>
                     Here are some local examples that can be entered as a URL:
                 <ul>
@@ -170,7 +176,8 @@ class MediaEditorExample extends React.Component {
                 </button>
                 </div>
                 {urlInput}
-                <div style={styles.editor} onClick={this.focus}>
+                <div className="editor" style={styles.editor} onClick={this.focus}>
+                    <ToolButton />
                     <Editor
                         blockRendererFn={mediaBlockRenderer}
                         editorState={this.state.editorState}

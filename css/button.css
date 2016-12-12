@@ -1,0 +1,11 @@
+.button {
+    background: url(../imgs/toolbutton.png) no-repeat 0 0;
+    width: 28px;
+    height: 28px;
+    background-size: 28px auto;
+    position: absolute;
+    left: -28px;
+}
+.editor {
+    position: relative;
+}

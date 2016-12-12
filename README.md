@@ -28,7 +28,7 @@ draft-js基于react开发，利用react的state和virtual dom对应关系，使�
 
 ## ContentBlock
 
-内容块，可以文本，entity，段落等
+内容块，可以是文本，entity，段落等
 
 ## Entity
 
