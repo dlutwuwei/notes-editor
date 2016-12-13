@@ -90,6 +90,9 @@ this.setState({
 
 ### block and entity
 
+block是构成contentState的基本单位, entity是一种封装结构, entity可以转发位block,
+block也可以获取entity.
+
 ### block styles
 
 ## handle key command
