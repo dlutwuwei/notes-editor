@@ -64,16 +64,31 @@ console.log('current offset top: ', current_dom.offsetTop, current_dom.offsetHei
 
 插入block是富文本经常用的功能，draft将所有的内容都抽象为块，block可由文本内容, Type(paragraph, header, list item), 或者entity, inline style, and depth 
 
-- entity块
-首先创建entity，使用AtomicBlockUtils插入atomic block,
-> atomic block是一个内建的block类型，表示不可分解
+- 文本的插入由编辑器自己控制
+
+- Type内键的各种类型的block，可通过RichUtils实现
+
+
+```
+RichUtils.toggleBlockType(
+  this.state.editorState,
+  blockType
+)
+```
+
+- entity 一个内容封装概念，可以AtomicBlockUtils.insertAtomicBlock转化为block插入编辑器中。
+
+> atomic block是一个特殊的block类型，表示不可分解
+
+创建entity，使用AtomicBlockUtils插入atomic block
+
 ```
 const entityKey = Entity.create(
     urlType,
     'IMMUTABLE',
     { src: urlValue }
 );
-// 插入一个entity封装位block
+// 插入一个entity
 this.setState({
     editorState: AtomicBlockUtils.insertAtomicBlock(
       editorState,
@@ -88,10 +103,26 @@ this.setState({
 ```
 
 
-### block and entity
+### block
 
 block是构成contentState的基本单位, entity是一种封装结构, entity可以转为block,
-block也可以获取entity.
+如果block包含entity, 从block也可以获取entity.
+
+- 内键的block类型-block types
+
+| HTML element	 | Draft block type      |   
+| :-------------- |:--------------------|   
+| \<h1/>	         | header-one   |
+| \<h2/>	         | header-two   |
+| \<h3/>	         | header-three |
+| \<h4/>	         | header-four  |
+| \<h5/>	         | header-five  |
+| \<h6/>	         | header-six   |
+| \<blockquote/>	 | blockquote   |
+| \<pre/>	       | code-block  |
+| \<figure/>	     | atomic    |
+| \<li/>	         | unordered-list-item,ordered-list-item**|
+| \<div/>	       | unstyled* |
 
 ### block styles
 
@@ -112,10 +143,117 @@ class EditorWithFancyBlockquotes extends React.Component {
   }
 }
 ```
+### blockRenderMap
+
+自定义某种类型的block对应的dom元素类型，如下 'header-two'对应h2标签
+```
+const blockRenderMap = Immutable.Map({
+  'header-two': {
+   element: 'h2'
+  },
+  'unstyled': {
+    element: 'h2'
+  }
+});
+
+class RichEditor extends React.Component {
+  render() {
+    return (
+      <Editor
+        ...
+        blockRenderMap={blockRenderMap}
+      />
+    );
+  }
+}
+```
+> 当draft从html转化为contentState时, 指定aliasedElements规定某种元素转化为那种block，下面的p会生成unstyle的block
+
+```
+'unstyled': {
+  element: 'div',
+  aliasedElements: ['p'],
+}
+```
+### block wrapper
+
+block wrapper用于将某种block转化为自定义react组件，或在convertFromHTML时执行相反的过程
+```
+class MyCustomBlock extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className='MyCustomBlock'>
+        {/* here, this.props.children contains a <section> container, as that was the matching element */}
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+const blockRenderMap = Immutable.Map({
+  'MyCustomBlock': {
+    // element is used during paste or html conversion to auto match your component;
+    // it is also retained as part of this.props.children and not stripped out
+    element: 'section',
+    wrapper: <MyCustomBlock {...this.props} />
+  }
+});
+
+// keep support for other draft default block types and add our myCustomBlock type
+const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
+
+class RichEditor extends React.Component {
+  ...
+  render() {
+    return (
+      <Editor
+        ...
+        blockRenderMap={extendedBlockRenderMap}
+      />
+    );
+  }
+}
+```
+
+### blockRendererFn and block render
+
+使用blockRendererFn可以通过block的类型生成react组件给编辑器，编辑器会将其展示出来
+
+```
+function myBlockRenderer(contentBlock) {
+  const type = contentBlock.getType();
+  if (type === 'atomic') {
+    return {
+      component: MediaComponent,
+      editable: false,
+      props: {
+        foo: 'bar',
+      },
+    };
+  }
+}
+
+// Then...
+import {Editor} from 'draft-js';
+class EditorWithMedia extends React.Component {
+  ...
+  render() {
+    return <Editor ... blockRendererFn={myBlockRenderer} />;
+  }
+}
+```
 ## handle key command and key binding
 
 draft对一些键盘操作会触发一些command，通过handleKeyCommand方法捕获。
-keyBindingFn是捕获所有键盘事件的方法
+
+keyBindingFn是捕获所有键盘事件的方法, 当有command键和s键按下，返回一个‘myeditor-save'
+新command，否则沿用默认的命令生成getDefaultKeyBinding.
+
+handleKeyCommand捕获myeditor-save命令进行相关处理。
 ```
 import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
 const {hasCommandModifier} = KeyBindingUtil;
