@@ -90,14 +90,68 @@ this.setState({
 
 ### block and entity
 
-block是构成contentState的基本单位, entity是一种封装结构, entity可以转发位block,
+block是构成contentState的基本单位, entity是一种封装结构, entity可以转为block,
 block也可以获取entity.
 
 ### block styles
 
-## handle key command
+block styles让我们可以针对某种block添加classname，利用blockStyleFn方法匹配不同type的block，返回一个classname
+```
+function myBlockStyleFn(contentBlock) {
+  const type = contentBlock.getType();
+  if (type === 'blockquote') {
+    return 'superFancyBlockquote';
+  }
+}
 
-## key binding
+// Then...
+import {Editor} from 'draft-js';
+class EditorWithFancyBlockquotes extends React.Component {
+  render() {
+    return <Editor ... blockStyleFn={myBlockStyleFn} />;
+  }
+}
+```
+## handle key command and key binding
+
+draft对一些键盘操作会触发一些command，通过handleKeyCommand方法捕获。
+keyBindingFn是捕获所有键盘事件的方法
+```
+import {getDefaultKeyBinding, KeyBindingUtil} from 'draft-js';
+const {hasCommandModifier} = KeyBindingUtil;
+
+function myKeyBindingFn(e: SyntheticKeyboardEvent): string {
+  if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
+    return 'myeditor-save';
+  }
+  return getDefaultKeyBinding(e);
+}
+
+import {Editor} from 'draft-js';
+class MyEditor extends React.Component {
+  // ...
+
+  handleKeyCommand(command: string): DraftHandleValue {
+    if (command === 'myeditor-save') {
+      // Perform a request to save your contents, set
+      // a new `editorState`, etc.
+      return 'handled';
+    }
+    return 'not-handled';
+  }
+
+  render() {
+    return (
+      <Editor
+        editorState={this.state.editorState}
+        handleKeyCommand={this.handleKeyCommand.bind(this)}
+        keyBindingFn={myKeyBindingFn}
+        ...
+      />
+    );
+  }
+}
+```
 
 ## decorator
 
