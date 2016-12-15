@@ -295,6 +295,48 @@ class MyEditor extends React.Component {
 
 ## inline styles
 
+customStyleMap对style进行配置，并使用RichUtils.toggleInlineStyle对选区添加样式
+
+```
+import {Editor} from 'draft-js';
+
+const styleMap = {
+  'STRIKETHROUGH': {
+    textDecoration: 'line-through',
+  },
+};
+
+class MyEditor extends React.Component {
+  // ...
+  render() {
+    return (
+      <Editor
+        customStyleMap={styleMap}
+        editorState={this.state.editorState}
+        ...
+      />
+    );
+  }
+}
+
+const currentStyle = editorState.getCurrentInlineStyle();
+
+// Unset style override for current color.
+if (selection.isCollapsed()) {
+  nextEditorState = currentStyle.reduce((state, color) => {
+    return RichUtils.toggleInlineStyle(state, color);
+  }, nextEditorState);
+}
+
+// If the color is being toggled on, apply it.
+if (!currentStyle.has(toggledColor)) {
+  nextEditorState = RichUtils.toggleInlineStyle(
+    nextEditorState,
+    toggledColor
+  );
+}
+
+```
 ## nested list
 
 ## text
