@@ -8,18 +8,15 @@ import {
     RichUtils,
     convertToRaw,
     Entity,
-    Modifier
+    Modifier,
+    getDefaultKeyBinding, 
+    KeyBindingUtil
 } from 'draft-js';
 
 import './css/button.css';
 import 'draft-js/dist/Draft.css';
 
-import ToolButton from './src/toolButton';
-
-import {
-    getDefaultKeyBinding, 
-    KeyBindingUtil
-} from 'draft-js';
+import ToolButton from './src/components/toolButton';
 
 const { hasCommandModifier } = KeyBindingUtil;
 

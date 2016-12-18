@@ -50,7 +50,7 @@ ReactDOM.render(
 
 ## 获取焦点的位置
 
-当我们想加一些交互按钮的时候，一般都想知道输入焦点的位置，draft.js并没有提供获取dom元素的功能.
+当我们想加一些交互按钮的时候，一般都想知道输入焦点的位置，draft.js并没有提供获取dom元素的api.
 
 ```
 let key = this.state.editorState.getSelection().getStartKey();
@@ -62,21 +62,11 @@ console.log('current offset top: ', current_dom.offsetTop, current_dom.offsetHei
 
 ## insert and render block
 
-插入block是富文本经常用的功能，draft将所有的内容都抽象为块，block可由文本内容, Type(paragraph, header, list item), 或者entity, inline style, and depth 
+插入block是富文本经常用的功能，draft将所有的内容都抽象为块，block可由文本内容, Block Type(paragraph, header, list item), 或者entity, inline style, and depth 
 
-- 文本的插入由编辑器自己控制
+### entity
 
-- Type内键的各种类型的block，可通过RichUtils实现
-
-
-```
-RichUtils.toggleBlockType(
-  this.state.editorState,
-  blockType
-)
-```
-
-- entity 一个内容封装概念，可以AtomicBlockUtils.insertAtomicBlock转化为block插入编辑器中。
+entity 一个内容封装概念，可以AtomicBlockUtils.insertAtomicBlock转化为block插入编辑器中。
 
 > atomic block是一个特殊的block类型，表示不可分解
 
@@ -101,11 +91,15 @@ this.setState({
     setTimeout(() => this.focus(), 0);
 });
 ```
+修改entity，使用Entity.mergeDatah或者Enitiy.replaceData进行修改。
+```
+
+```
 
 
 ### block
 
-block是构成contentState的基本单位, entity是一种封装结构, entity可以转为block,
+block是构成contentState的基本单位, entity是一种内容封装结构。
 如果block包含entity, 从block也可以获取entity.
 
 - 内键的block类型-block types
@@ -123,6 +117,10 @@ block是构成contentState的基本单位, entity是一种封装结构, entity�
 | \<figure/>	     | atomic    |
 | \<li/>	         | unordered-list-item,ordered-list-item**|
 | \<div/>	       | unstyled* |
+
+block的类型使用者不能修改，只能在限定的类型中选择，其实上面的类型已经完全够用了，而且entity的type可以用户随意控制，
+当你想插入一个自定义的block时，可以通过AtomicBlockUtils插入一个atomic类型的block，包含自定义type的entity，这样很方便的解决了这个问题
+
 
 ### block styles
 
