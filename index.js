@@ -16,7 +16,7 @@ import {
 import './css/button.css';
 import 'draft-js/dist/Draft.css';
 
-import ToolButton from './src/components/toolButton';
+import ToolButton from './src/components/tool-button';
 
 const { hasCommandModifier } = KeyBindingUtil;
 
@@ -42,6 +42,7 @@ class MediaEditorExample extends React.Component {
         this.addAudio = this._addAudio.bind(this);
         this.addImage = this._addImage.bind(this);
         this.addVideo = this._addVideo.bind(this);
+        this.addYoutube = this._addYoutube.bind(this);
         this.confirmMedia = this._confirmMedia.bind(this);
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
@@ -52,13 +53,13 @@ class MediaEditorExample extends React.Component {
         if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
             return 'myeditor-save';
         }
-        if(e.keyCode === 13) {
+        if(e.keyCode === 13 || e.keyCode === 8) {
             // TODO: toggle menu button
             let key = this.state.editorState.getSelection().getStartKey();
             let current_dom = document.querySelector(`[data-offset-key='${key}-0-0']`);
             console.log('current offset top: ', current_dom.offsetTop, current_dom.offsetHeight);
             let top = current_dom.offsetTop;
-            ToolButton.show(-28, top + 25);
+            ToolButton.show(-28, top + (e.keyCode === 8?-12:25));
         } else {
             console.log('otherkey', this.state.editorState.getSelection().getStartKey());
         }
@@ -85,19 +86,24 @@ class MediaEditorExample extends React.Component {
             'IMMUTABLE',
             { src: urlValue }
         );
+        if(urlType === 'youtube') {
+            coonsole.log(urlValue);
+        } else {
+            // set editor state，insert atomic type content block contains entity
+            this.setState({
+                editorState: AtomicBlockUtils.insertAtomicBlock(
+                    editorState,
+                    entityKey,
+                    ''
+                ),
+                showURLInput: false,
+                urlValue: '',
+            }, () => {
+                setTimeout(() => this.focus(), 0);
+            });
+        }
 
-        // set editor state，insert atomic type content block contains entity
-        this.setState({
-            editorState: AtomicBlockUtils.insertAtomicBlock(
-              editorState,
-              entityKey,
-              ''
-            ),
-            showURLInput: false,
-            urlValue: '',
-        }, () => {
-            setTimeout(() => this.focus(), 0);
-        });
+
     }
 
     _onURLInputKeyDown(e) {
@@ -128,7 +134,9 @@ class MediaEditorExample extends React.Component {
     _addVideo() {
         this._promptForMedia('video');
     }
-
+    _addYoutube() {
+        this._promptForMedia('youtube');
+    }
     render() {
         let urlInput;
         if (this.state.showURLInput) {
@@ -170,6 +178,9 @@ class MediaEditorExample extends React.Component {
                 </button>
                     <button onMouseDown={this.addVideo} style={{ marginRight: 10 }}>
                         Add Video
+                </button>
+                    <button onMouseDown={this.addYoutube} style={{ marginRight: 10 }}>
+                        Add Youtube
                 </button>
                 </div>
                 {urlInput}

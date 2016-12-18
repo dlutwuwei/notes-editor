@@ -70,7 +70,7 @@ entity 一个内容封装概念，可以AtomicBlockUtils.insertAtomicBlock转化
 
 > atomic block是一个特殊的block类型，表示不可分解
 
-创建entity，使用AtomicBlockUtils插入atomic block
+创建一个type为urlType的entity，使用AtomicBlockUtils插入atomic block
 
 ```
 const entityKey = Entity.create(
@@ -91,11 +91,10 @@ this.setState({
     setTimeout(() => this.focus(), 0);
 });
 ```
-修改entity，使用Entity.mergeDatah或者Enitiy.replaceData进行修改。
+修改entity，使用Entity.mergeDatah或者Enitiy.replaceData进行修改,替换或者合并entity的data。
 ```
-
+Entity.mergeData(entityKey, {content: this.state.texValue});
 ```
-
 
 ### block
 
@@ -118,8 +117,11 @@ block是构成contentState的基本单位, entity是一种内容封装结构。
 | \<li/>	         | unordered-list-item,ordered-list-item**|
 | \<div/>	       | unstyled* |
 
-block的类型使用者不能修改，只能在限定的类型中选择，其实上面的类型已经完全够用了，而且entity的type可以用户随意控制，
-当你想插入一个自定义的block时，可以通过AtomicBlockUtils插入一个atomic类型的block，包含自定义type的entity，这样很方便的解决了这个问题
+block的类型使用者不能修改，只能在限定的类型中选择，其实上面的类型已经完全够用了，
+而且entity的type可以用户随意控制。
+
+当你想插入一个自定义的block时，可以通过AtomicBlockUtils插入一个atomic类型的block，
+包含自定义type的entity，这样很方便的解决了这个问题
 
 
 ### block styles
