@@ -7,7 +7,7 @@ class YoutbueBlock extends Component {
     render() {
         return (
             <div>
-                
+                <iframe src={this.props.url}></iframe>
             </div>
         );
     }

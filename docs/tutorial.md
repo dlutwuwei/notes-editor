@@ -338,7 +338,9 @@ if (!currentStyle.has(toggledColor)) {
 
 ```
 ## nested list
-
+```
+RichUtils.onTab()
+```
 ## text
 
 ## utils

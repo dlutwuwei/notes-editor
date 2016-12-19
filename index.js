@@ -18,14 +18,15 @@ import 'draft-js/dist/Draft.css';
 
 import ToolButton from './src/components/tool-button';
 
+import { content } from './src/data/content';
+
 const { hasCommandModifier } = KeyBindingUtil;
 
 class MediaEditorExample extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            editorState: EditorState.createEmpty(),
+            editorState: EditorState.createWithContent(content),
             showURLInput: false,
             url: '',
             urlType: '',
@@ -236,7 +237,7 @@ const Media = (props) => {
     );
     const {src} = entity.getData();
     const type = entity.getType();
-
+    debugger
     let media;
     if (type === 'audio') {
         media = <Audio src={src} />;

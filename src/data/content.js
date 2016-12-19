@@ -42,11 +42,11 @@ var rawContent = {
     {
       text: ' ',
       type: 'atomic',
-      entityRanges: [{offset: 0, length: 1, key: 'first'}],
+      entityRanges: [{offset: 0, length: 1, key: 'media'}],
     },
     {
       text: ' ',
-      type: 'atomic',
+      type: 'unstyled',
       entityRanges: [{offset: 0, length: 1, key: 'youtube_video'}],
     },
     {
@@ -66,6 +66,12 @@ var rawContent = {
           '\\left( \\sum_{k=1}^n b_k^2 \\right)'
         ),
       },
+    },
+    media: {
+      type: 'image',
+      data: {
+        src: 'https://avatars1.githubusercontent.com/u/3362483?v=3&s=460'
+      }
     },
     youtube_video: {
         type: 'YOUTUBE_VIDEO',
