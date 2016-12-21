@@ -338,11 +338,49 @@ if (!currentStyle.has(toggledColor)) {
 
 ```
 ## nested list
+
+Draftjs支持折叠的list, 就像facebook notes editor展示的一样，你可以使用tab或者shift+tab添加或者list item的层级。
+
+RichUtils提供onTab方法来管理这些行为，可以满足大部分层叠list的需求，你可以在Editor上增加onTab方法来调用这个组件。
+
+默认的，样式通过默认的DraftStyleDefault.css已经设置了合适的间距和list style，
+注意现在没有对除了'ordered-list-item'和'unordered-list-item'的block提供支持。
+
 ```
 RichUtils.onTab()
 ```
-## text
+## Text Direction and Text Alignment 
+
+Draft 使用bidi algorithm确定text使用何种drection和alignment.
+
+The Editor component提供一个textAlignment属性, 可以设置为:'left', 'center', and 'right'.
 
 ## utils
 
 ## Issues and Pitfalls
+
+### Delayed state updates 
+
+一个单向数据管理模式通常是批量更新数据，或者延迟等待多个更新一次执行，
+一般使用setTimeout或者其他机制实现，然后触发React Component更新重绘。
+
+当然通过draft编辑器延迟的触发react，有可能会造成严重的交互问题。
+
+这是因为编辑器希望立即触发更新去展示，而render还在同步用户的编辑行为。
+
+延迟可以防止更新连续触发，会造成键盘动作和展示的不一致。
+
+要防止这种问题但是仍然使用这个延迟和批量机制，你应该将延迟的行为独立出来，意思是，你必须允许你的EditorState传送到你的Editor component可以延迟。
+
+而且独立地表现批量更新不影响Editor component的状态。
+
+When delays are introduced to a React application with a Draft editor, however,
+it is possible to cause significant interaction problems.
+This is because the editor expects immediate updates and renders that stay in sync with the user's typing behavior.
+Delays can prevent updates from being propagated through the editor component tree,
+which can cause a disconnect between keystrokes and updates.
+
+To avoid this while still using a delaying or batching mechanism,
+you should separate the delay behavior from your Editor state propagation.
+That is, you must always allow your EditorState to propagate to your Editor component without delay,
+and independently perform batched updates that do not affect the state of your Editor component.
