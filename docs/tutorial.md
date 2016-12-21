@@ -364,7 +364,7 @@ The Editor component提供一个textAlignment属性, 可以设置为:'left', 'ce
 一个单向数据管理模式通常是批量更新数据，或者延迟等待多个更新一次执行，
 一般使用setTimeout或者其他机制实现，然后触发React Component更新重绘。
 
-当然通过draft编辑器延迟的触发react，有可能会造成严重的交互问题。
+当然通过draft编辑器延迟触发更新react组件重绘，有可能会造成严重的交互问题。
 
 这是因为编辑器希望立即触发更新去展示，而render还在同步用户的编辑行为。
 
