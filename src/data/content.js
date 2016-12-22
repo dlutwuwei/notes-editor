@@ -12,7 +12,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import {convertFromRaw} from 'draft-js';
+import { convertFromRaw } from 'draft-js';
 
 var rawContent = {
   blocks: [
@@ -42,12 +42,12 @@ var rawContent = {
     {
       text: ' ',
       type: 'atomic',
-      entityRanges: [{offset: 0, length: 1, key: 'media'}],
+      entityRanges: [{ offset: 0, length: 1, key: 'media' }],
     },
     {
       text: ' ',
-      type: 'unstyled',
-      entityRanges: [{offset: 0, length: 1, key: 'youtube_video'}],
+      type: 'atomic',
+      entityRanges: [{ offset: 0, length: 1, key: 'youtube_video' }],
     },
     {
       text: 'You can also insert a new TeX block at the cursor location.',
@@ -74,16 +74,23 @@ var rawContent = {
       }
     },
     youtube_video: {
-        type: 'YOUTUBE_VIDEO',
-        mutability: 'IMMUTABLE',
-        data: {
-            video_url: '',
-            video_type: '',
-            video_width: '',
-            video_height: '',
-            video_description: '',
-            video_title: ''
-        }
+      type: 'YOUTUBE_VIDEO',
+      mutability: 'IMMUTABLE',
+      data: {
+        videoBitRate: 0,
+        videoDuration: 210,
+        videoHeight:720,
+        videoId: "wuUGUsTmvQg",
+        videoThumbnail:{
+          height: 360,
+          thumb_url:"f0585a4f2e11804578ba",
+          uri:"f0585a4f2e11804578ba",
+          width:480
+        },
+        videoType: "youtube",
+        videoUrl: "https://www.youtube.com/watch?v=wuUGUsTmvQg",
+        videoWidth:1280
+      }
     }
   },
 };

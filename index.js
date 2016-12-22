@@ -12,7 +12,7 @@ import {
     getDefaultKeyBinding, 
     KeyBindingUtil
 } from 'draft-js';
-
+import Media from './src/components/media';
 import './css/button.css';
 import 'draft-js/dist/Draft.css';
 
@@ -218,37 +218,6 @@ function mediaBlockRenderer(block) {
 
     return null;
 }
-
-const Audio = (props) => {
-    return <audio controls src={props.src} style={styles.media} />;
-};
-
-const Image = (props) => {
-    return <img src={props.src} style={styles.media} />;
-};
-
-const Video = (props) => {
-    return <video controls src={props.src} style={styles.media} />;
-};
-
-const Media = (props) => {
-    const entity = Entity.get(
-        props.block.getEntityAt(0)
-    );
-    const {src} = entity.getData();
-    const type = entity.getType();
-    debugger
-    let media;
-    if (type === 'audio') {
-        media = <Audio src={src} />;
-    } else if (type === 'image') {
-        media = <Image src={src} />;
-    } else if (type === 'video') {
-        media = <Video src={src} />;
-    }
-
-    return media;
-};
 
 const styles = {
     root: {
