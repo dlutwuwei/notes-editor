@@ -47,7 +47,7 @@ var rawContent = {
     {
       text: ' ',
       type: 'atomic',
-      entityRanges: [{ offset: 0, length: 1, key: 'youtube_video' }],
+      entityRanges: [{ offset: 0, length: 1, key: 'youtube' }],
     },
     {
       text: 'You can also insert a new TeX block at the cursor location.',
@@ -73,17 +73,17 @@ var rawContent = {
         src: 'https://avatars1.githubusercontent.com/u/3362483?v=3&s=460'
       }
     },
-    youtube_video: {
-      type: 'YOUTUBE_VIDEO',
+    youtube: {
+      type: 'youtube',
       mutability: 'IMMUTABLE',
       data: {
-        videoBitRate: 0,
-        videoDuration: 210,
-        videoHeight: 360,
-        videoWidth: 640,
-        videoId: "wuUGUsTmvQg",
-        videoType: "youtube",
-        videoUrl: "https://www.youtube.com/watch?v=wuUGUsTmvQg",
+        bitRate: 0,
+        duration: 210,
+        height: 360,
+        width: 640,
+        id: "wuUGUsTmvQg",
+        type: "youtube",
+        url: "https://www.youtube.com/watch?v=wuUGUsTmvQg",
       }
     }
   },

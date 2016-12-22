@@ -39,7 +39,7 @@ export default (props) => {
         media = <Image src={src} />;
     } else if (type === 'video') {
         media = <Video src={src} />;
-    } else if (type === 'YOUTUBE_VIDEO') {
+    } else if (type === 'youtube') {
         media = <YoutbueBlock {...data} />
     }
 
