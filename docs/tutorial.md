@@ -359,10 +359,22 @@ The Editor component提供一个textAlignment属性, 可以设置为:'left', 'ce
 
 ## Issues and Pitfalls
 
+entity插入时text内容必须有内容，可以设置为一个空格，
+```
+editorState: AtomicBlockUtils.insertAtomicBlock(
+  editorState,
+  entityKey,
+  ' '
+)
+```
+否则会报Uncaught Error: Unknown DraftEntity key错误，因为Entity.get无法获取到entity,
+从这里可以看到entity的生成和获取还是受到了selection这个api的影响，之前我们在medium editor编辑器
+里碰到一个如果元素中没有文本内容的时候，无法选中的问题。
+
 ### Delayed state updates 
 
 一个单向数据管理模式通常是批量更新数据，或者延迟等待多个更新一次执行，
-一般使用setTimeout或者其他机制实现，然后触发React Component更新重绘。
+一般使用setTimeout或者其他机制实现，一次触发React Component更新重绘。
 
 当然通过draft编辑器延迟触发更新react组件重绘，有可能会造成严重的交互问题。
 
@@ -374,13 +386,3 @@ The Editor component提供一个textAlignment属性, 可以设置为:'left', 'ce
 
 而且独立地表现批量更新不影响Editor component的状态。
 
-When delays are introduced to a React application with a Draft editor, however,
-it is possible to cause significant interaction problems.
-This is because the editor expects immediate updates and renders that stay in sync with the user's typing behavior.
-Delays can prevent updates from being propagated through the editor component tree,
-which can cause a disconnect between keystrokes and updates.
-
-To avoid this while still using a delaying or batching mechanism,
-you should separate the delay behavior from your Editor state propagation.
-That is, you must always allow your EditorState to propagate to your Editor component without delay,
-and independently perform batched updates that do not affect the state of your Editor component.

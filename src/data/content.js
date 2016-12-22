@@ -40,7 +40,7 @@ var rawContent = {
       type: 'unstyled',
     },
     {
-      text: ' ',
+      text: ' ', // must be space not null, otherwise, entity will not create.
       type: 'atomic',
       entityRanges: [{ offset: 0, length: 1, key: 'media' }],
     },
