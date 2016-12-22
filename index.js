@@ -94,7 +94,7 @@ class MediaEditorExample extends React.Component {
             editorState: AtomicBlockUtils.insertAtomicBlock(
                 editorState,
                 entityKey,
-                ''
+                ' '
             ),
             showURLInput: false,
             urlValue: '',
