@@ -79,17 +79,11 @@ var rawContent = {
       data: {
         videoBitRate: 0,
         videoDuration: 210,
-        videoHeight:720,
+        videoHeight: 360,
+        videoWidth: 640,
         videoId: "wuUGUsTmvQg",
-        videoThumbnail:{
-          height: 360,
-          thumb_url:"f0585a4f2e11804578ba",
-          uri:"f0585a4f2e11804578ba",
-          width:480
-        },
         videoType: "youtube",
         videoUrl: "https://www.youtube.com/watch?v=wuUGUsTmvQg",
-        videoWidth:1280
       }
     }
   },

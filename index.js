@@ -88,7 +88,7 @@ class MediaEditorExample extends React.Component {
             { src: urlValue }
         );
         if(urlType === 'youtube') {
-            coonsole.log(urlValue);
+            console.log(urlValue);
         } else {
             // set editor state，insert atomic type content block contains entity
             this.setState({
