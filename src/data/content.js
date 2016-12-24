@@ -21,6 +21,11 @@ var rawContent = {
       type: 'unstyled',
     },
     {
+      text: ' ', // must be space not null, otherwise, entity will not create.
+      type: 'atomic',
+      entityRanges: [{ offset: 0, length: 1, key: 'table' }],
+    },
+    {
       text: '',
       type: 'unstyled',
     },
@@ -85,6 +90,15 @@ var rawContent = {
         type: "youtube",
         url: "https://www.youtube.com/watch?v=wuUGUsTmvQg",
       }
+    },
+    table: {
+      type: 'table',
+      mutability: 'Segmented',
+      data: [
+        [1, 2, 3, 4, 5, 6],
+        [1, 2, 3, 4, 5, 6],
+        [1, 2, 3, 4, 5, 6]
+      ]
     }
   },
 };

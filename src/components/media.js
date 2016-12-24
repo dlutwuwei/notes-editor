@@ -12,6 +12,7 @@ import {
 
 import React from 'react';
 import YoutbueBlock from './youtube-video-block';
+import Table from './table';
 
 const Audio = (props) => {
     return <audio controls src={props.src} style={styles.media} />;
@@ -41,6 +42,8 @@ export default (props) => {
         media = <Video src={src} />;
     } else if (type === 'youtube') {
         media = <YoutbueBlock {...data} />
+    } else if (type === 'table') {
+        media = <Table data={data} />
     }
 
     return media;
