@@ -20,6 +20,7 @@
   "homepage": "https://github.com/dlutwuwei/notes-editor#readme",
   "dependencies": {
     "draft-js": "^0.9.1",
+    "draft-js-table": "^0.3.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "whatwg-fetch": "^2.0.1"

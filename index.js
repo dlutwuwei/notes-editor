@@ -16,6 +16,8 @@ import Media from './src/components/media';
 import './css/button.css';
 import 'draft-js/dist/Draft.css';
 
+const TableUtils = require('draft-js-table');
+
 import 'whatwg-fetch'
 
 import ToolButton from './src/components/tool-button';
@@ -160,6 +162,9 @@ class MediaEditorExample extends React.Component {
     _addYoutube() {
         this._promptForMedia('youtube');
     }
+    insertTable() {
+        TableUtils.insertTable(this.state.editorState)
+    }
     render() {
         let urlInput;
         if (this.state.showURLInput) {
@@ -204,6 +209,9 @@ class MediaEditorExample extends React.Component {
                 </button>
                     <button onMouseDown={this.addYoutube} style={{ marginRight: 10 }}>
                         Add Youtube
+                </button>
+                    <button onMouseDown={this.insertTable.bind(this)} style={{ marginRight: 10 }}>
+                        Add Table
                 </button>
                 </div>
                 {urlInput}
