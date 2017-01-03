@@ -21,17 +21,16 @@ var rawContent = {
       type: 'unordered-list-item'
     },
     {
+      text: 'item1 abc',
+      type: 'block-table'
+    },
+    {
       text: 'item2 abc',
       type: 'unordered-list-item'
     },
     {
       text: 'This is a Draft-based editor that supports TeX rendering.',
       type: 'unstyled',
-    },
-    {
-      text: ' ', // must be space not null, otherwise, entity will not create.
-      type: 'atomic',
-      entityRanges: [{ offset: 0, length: 1, key: 'table' }],
     },
     {
       text: '',
@@ -99,15 +98,6 @@ var rawContent = {
         url: "https://www.youtube.com/watch?v=wuUGUsTmvQg",
       }
     },
-    table: {
-      type: 'table',
-      mutability: 'Segmented',
-      data: [
-        [1, 2, 3, 4, 5, 6],
-        [1, 2, 3, 4, 5, 6],
-        [1, 2, 3, 4, 5, 6]
-      ]
-    }
   },
 };
 

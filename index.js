@@ -10,15 +10,20 @@ import {
     Entity,
     Modifier,
     getDefaultKeyBinding, 
-    KeyBindingUtil
+    KeyBindingUtil,
 } from 'draft-js';
+
 import Media from './src/components/media';
 import './css/button.css';
 import 'draft-js/dist/Draft.css';
-
-const TableUtils = require('draft-js-table');
+import Table from './src/components/table';
+import tableStyles from './src/components/style.css';
+const defaultTheme = {
+  ...tableStyles,
+};
 
 import 'whatwg-fetch'
+import nestedEditorCreator from './src/components/nested-editor';
 
 import ToolButton from './src/components/tool-button';
 
@@ -48,6 +53,7 @@ class MediaEditorExample extends React.Component {
         this.addImage = this._addImage.bind(this);
         this.addVideo = this._addVideo.bind(this);
         this.addYoutube = this._addYoutube.bind(this);
+
         this.confirmMedia = this._confirmMedia.bind(this);
         this.handleKeyCommand = this._handleKeyCommand.bind(this);
         this.onURLInputKeyDown = this._onURLInputKeyDown.bind(this);
@@ -74,7 +80,8 @@ class MediaEditorExample extends React.Component {
     _handleKeyCommand(command) {
         const {editorState} = this.state;
         console.log(command)
-        const newState = RichUtils.handleKeyCommand(editorState, command);
+        const newState = TableUtils.hanldeKeyCommand(editorState, command)
+            || Draft.RichUtils.handleKeyCommand(editorState, command);
         if (newState) {
             this.onChange(newState);
             return true;
@@ -142,7 +149,7 @@ class MediaEditorExample extends React.Component {
         this._promptForMedia('youtube');
     }
     insertTable() {
-        TableUtils.insertTable(this.state.editorState)
+
     }
     render() {
         let urlInput;
@@ -162,7 +169,6 @@ class MediaEditorExample extends React.Component {
                 </button>
                 </div>;
         }
-
         return (
             <div style={styles.root}>
                 <div style={{ marginBottom: 10 }}>
@@ -197,11 +203,11 @@ class MediaEditorExample extends React.Component {
                 <div className="editor" style={styles.editor} onClick={this.focus}>
                     <ToolButton />
                     <Editor
-                        blockRendererFn={mediaBlockRenderer}
-                        editorState={this.state.editorState}
-                        handleKeyCommand={this.handleKeyCommand}
-                        keyBindingFn={this.myKeyBindingFn.bind(this)}
-                        onChange={this.onChange}
+                        blockRendererFn={mediaBlockRenderer} // block render hook
+                        editorState={this.state.editorState} // editor state import
+                        handleKeyCommand={this.handleKeyCommand} // key command hook
+                        keyBindingFn={this.myKeyBindingFn.bind(this)} // key action bind hook
+                        onChange={this.onChange} // state change hook
                         placeholder="Enter some text..."
                         ref="editor"
                         />
@@ -217,12 +223,32 @@ class MediaEditorExample extends React.Component {
     }
 }
 
+const createRenderer = (Editor) => {
+  const NestedEditor = nestedEditorCreator(Editor);
+  return ({ block, editorState, onChange, setFocus, active }) => {
+    const { pluginEditor } = block.props.blockProps;
+    return (
+      <NestedEditor {...pluginEditor.props} setFocus={setFocus} setReadOnly={pluginEditor.setReadOnly} readOnly={!active} editorState={editorState} onChange={onChange} />
+    );
+  };
+};
+
+
 function mediaBlockRenderer(block) {
-    if (block.getType() === 'atomic') {
+    let type = block.getType();
+    if ( type === 'atomic') {
         return {
             component: Media,
             editable: false,
         };
+    } else if( type === 'block-table') {
+        const renderNestedEditor = createRenderer(this);
+        return {
+            component: Table({ theme: defaultTheme }),
+            props: {
+                renderNestedEditor
+            }
+        }
     }
 
     return null;
