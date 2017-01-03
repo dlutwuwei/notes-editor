@@ -17,6 +17,14 @@ import { convertFromRaw } from 'draft-js';
 var rawContent = {
   blocks: [
     {
+      text: 'item1 abc',
+      type: 'unordered-list-item'
+    },
+    {
+      text: 'item2 abc',
+      type: 'unordered-list-item'
+    },
+    {
       text: 'This is a Draft-based editor that supports TeX rendering.',
       type: 'unstyled',
     },
