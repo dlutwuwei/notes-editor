@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
 
-const TableComponent = ({ theme }) => class Table extends Component {
+import Draft, {
+    AtomicBlockUtils,
+    Editor,
+    EditorState,
+    RichUtils,
+    convertToRaw,
+    Entity,
+    Modifier,
+    getDefaultKeyBinding, 
+    KeyBindingUtil,
+} from 'draft-js';
+
+class Table extends Component {
   constructor(props) {
     super();
+    let data = Entity.get(props.block.getEntityAt(0)).getData();
     this.state = {
-      rows: props.blockProps.entityData.rows || [[]],
-      numberOfColumns: props.blockProps.entityData.numberOfColumns || 1,
+      rows: data.rows || [[]],
+      numberOfColumns: data.numberOfColumns || 1,
       focusedEdit: null
     };
   }
@@ -61,10 +74,9 @@ const TableComponent = ({ theme }) => class Table extends Component {
   }
 
   render() {
-    debugger
     const { rows, numberOfColumns, focusedEdit } = this.state;
     const { style, className, blockProps } = this.props;
-    const { isFocused, renderNestedEditor } = blockProps;
+    const { isFocused, renderNestedEditor, theme } = blockProps;
 
     const classNames = [className, theme.table].filter((p) => p);
 
@@ -88,6 +100,6 @@ const TableComponent = ({ theme }) => class Table extends Component {
       </table>
     );
   }
-};
+}
 
-export default TableComponent;
+export default Table;

@@ -22,7 +22,8 @@ var rawContent = {
     },
     {
       text: 'item1 abc',
-      type: 'block-table'
+      type: 'block-table',
+      entityRanges: [{ offset: 0, length: 1, key: 'table' }],
     },
     {
       text: 'item2 abc',
@@ -83,6 +84,12 @@ var rawContent = {
       type: 'image',
       data: {
         src: 'https://avatars1.githubusercontent.com/u/3362483?v=3&s=460'
+      }
+    },
+    table: {
+      type: 'table',
+      data: {
+        rows: [ [1,3,4], [2,5,6]]
       }
     },
     youtube: {

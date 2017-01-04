@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
+import Draft, {
     AtomicBlockUtils,
     Editor,
     EditorState,
@@ -12,6 +12,8 @@ import {
     getDefaultKeyBinding, 
     KeyBindingUtil,
 } from 'draft-js';
+
+import Immutable from 'immutable';
 
 import Media from './src/components/media';
 import './css/button.css';
@@ -30,6 +32,14 @@ import ToolButton from './src/components/tool-button';
 import { content } from './src/data/content';
 
 const { hasCommandModifier } = KeyBindingUtil;
+
+const blockRenderMap = Immutable.Map({
+  'block-table': {
+   element: 'table'
+  }
+});
+
+const extendedBlockRenderMap = Draft.DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 class MediaEditorExample extends React.Component {
     constructor(props) {
@@ -210,6 +220,7 @@ class MediaEditorExample extends React.Component {
                         onChange={this.onChange} // state change hook
                         placeholder="Enter some text..."
                         ref="editor"
+                        blockRenderMap={extendedBlockRenderMap}
                         />
                 </div>
                 <input
@@ -226,9 +237,8 @@ class MediaEditorExample extends React.Component {
 const createRenderer = (Editor) => {
   const NestedEditor = nestedEditorCreator(Editor);
   return ({ block, editorState, onChange, setFocus, active }) => {
-    const { pluginEditor } = block.props.blockProps;
     return (
-      <NestedEditor {...pluginEditor.props} setFocus={setFocus} setReadOnly={pluginEditor.setReadOnly} readOnly={!active} editorState={editorState} onChange={onChange} />
+      <NestedEditor setFocus={setFocus} setReadOnly={} readOnly={!active} editorState={editorState} onChange={onChange} />
     );
   };
 };
@@ -242,10 +252,11 @@ function mediaBlockRenderer(block) {
             editable: false,
         };
     } else if( type === 'block-table') {
-        const renderNestedEditor = createRenderer(this);
+        const renderNestedEditor = createRenderer(Editor);
         return {
-            component: Table({ theme: defaultTheme }),
+            component: Table,
             props: {
+                theme: defaultTheme,
                 renderNestedEditor
             }
         }
